@@ -12,6 +12,7 @@
         canvasWidth: 400,
         canvasHeight: 300,
         data: [
+          /*
           { time: 1684215730, event: 5 },
           { time: 1684215731, event: 7 },
           { time: 1684215732, event: 8 },
@@ -22,17 +23,35 @@
           { time: 1684215737, event: 11 },
           { time: 1684215738, event: 12 },
           { time: 1684215739, event: 20 },
-          // Add more data points as needed
+          */
+          { time: 1684215730, event: 1 },
+          { time: 1684215731, event: 2 },
+          { time: 1684215732, event: 3 },
+          { time: 1684215733, event: 1 },
+          { time: 1684215734, event: 3 },
+          { time: 1684215735, event: 2 },
+          { time: 1684215736, event: 4 },
+          { time: 1684215737, event: 1 },
+          { time: 1684215738, event: 1 },
+          { time: 1684215739, event: 2 },
+          { time: 1684215740, event: 2 },
+          { time: 1684215741, event: 6 },
+          { time: 1684215742, event: 5 },
+          { time: 1684215743, event: 2 },
+          { time: 1684215744, event: 2 },
+          { time: 1684215745, event: 3 },
+          { time: 1684215746, event: 3 },
+          { time: 1684215747, event: 3 },
+          { time: 1684215748, event: 5 },
+          { time: 1684215749, event: 4 },
         ],
       };
     },
     mounted() {
-      this.scaleTime(5);
-      this.debug();
+      this.scaleTime(2);
       this.drawGraph();
     },
     methods: {
-      
       
       scaleTime(fusedAmount) {
         let newData = [];
@@ -42,18 +61,12 @@
           let j = i + 1;
           while(j < this.data.length && this.data[i].time > this.data[j].time - fusedAmount){
             newEvent.event += this.data[j].event;
-            console.log(newEvent);
             j++;
           }
           newData.push(newEvent);
           i = j;
         }
-        console.log(newData);
         this.data = newData;
-      },
-
-      debug(){
-        //console.log(this.data[1].time);
       },
 
       drawGraph() {
