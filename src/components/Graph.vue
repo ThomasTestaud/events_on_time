@@ -1,5 +1,7 @@
 <template>
+  <h2>Graph Name</h2>
   <GraphComponent/>
+  <button>Add point</button>
 </template>
 
 <script>
