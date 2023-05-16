@@ -5,52 +5,26 @@
   </template>
   
   <script>
+
   export default {
     name: 'GraphComponent',
+    props: {
+      graphData: Array
+    },
+    
     data() {
       return {
         canvasWidth: 400,
         canvasHeight: 300,
-        data: [
-          /*
-          { time: 1684215730, event: 5 },
-          { time: 1684215731, event: 7 },
-          { time: 1684215732, event: 8 },
-          { time: 1684215733, event: 10 },
-          { time: 1684215734, event: 8 },
-          { time: 1684215735, event: 9 },
-          { time: 1684215736, event: 10 },
-          { time: 1684215737, event: 11 },
-          { time: 1684215738, event: 12 },
-          { time: 1684215739, event: 20 },
-          */
-          { time: 1684215730, event: 1 },
-          { time: 1684215731, event: 2 },
-          { time: 1684215732, event: 3 },
-          { time: 1684215733, event: 1 },
-          { time: 1684215734, event: 3 },
-          { time: 1684215735, event: 2 },
-          { time: 1684215736, event: 4 },
-          { time: 1684215737, event: 1 },
-          { time: 1684215738, event: 1 },
-          { time: 1684215739, event: 2 },
-          { time: 1684215740, event: 2 },
-          { time: 1684215741, event: 6 },
-          { time: 1684215742, event: 5 },
-          { time: 1684215743, event: 2 },
-          { time: 1684215744, event: 2 },
-          { time: 1684215745, event: 3 },
-          { time: 1684215746, event: 3 },
-          { time: 1684215747, event: 3 },
-          { time: 1684215748, event: 5 },
-          { time: 1684215749, event: 4 },
-        ],
+        data: this.graphData,
       };
     },
+
     mounted() {
-      this.scaleTime(2);
+      this.scaleTime(0);
       this.drawGraph();
     },
+
     methods: {
       
       scaleTime(fusedAmount) {
@@ -59,8 +33,8 @@
         while(i < this.data.length){
           let newEvent = this.data[i];
           let j = i + 1;
-          while(j < this.data.length && this.data[i].time > this.data[j].time - fusedAmount){
-            newEvent.event += this.data[j].event;
+          while(j < this.data.length && this.data[i].x_value > this.data[j].x_value - fusedAmount){
+            newEvent.Y_value += this.data[j].Y_value;
             j++;
           }
           newData.push(newEvent);
@@ -70,6 +44,8 @@
       },
 
       drawGraph() {
+        console.log('DRAW');
+        console.log(this.data);
         // Get the canvas element and its context
         const canvas = this.$refs.graphCanvas;
         const ctx = canvas.getContext("2d");
@@ -79,10 +55,10 @@
         const graphHeight = this.canvasHeight - 40;
         
         // Find the maximum values of time and event in the data array
-        const maxX = Math.max(...this.data.map((d) => d.time));
-        const maxY = Math.max(...this.data.map((d) => d.event));
+        const maxX = Math.max(...this.data.map((d) => d.x_value));
+        const maxY = Math.max(...this.data.map((d) => d.y_value));
         // Find the minimum values of time and event in the data array
-        const minX = Math.min(...this.data.map((d) => d.time));
+        const minX = Math.min(...this.data.map((d) => d.x_value));
         //const minY = Math.min(...this.data.map((d) => d.event));
         
         // Clear the canvas
@@ -101,8 +77,8 @@
         // Iterate over the data array and draw each data point as a circle
         this.data.forEach((d) => {
           // Calculate the x and y coordinates for the data point
-          const x = 20 + ((d.time - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
-          const y = this.canvasHeight - 20 - (d.event / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
+          const x = 20 + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
+          const y = this.canvasHeight - 20 - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
           
           // Draw the circle representing the data point
           ctx.beginPath();
@@ -110,6 +86,7 @@
           ctx.fill(); // Fill the circle with the specified fill style
         });
       },
+
     },
   };
   </script>
