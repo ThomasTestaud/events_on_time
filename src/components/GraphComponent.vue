@@ -27,9 +27,35 @@
       };
     },
     mounted() {
+      this.scaleTime(5);
+      this.debug();
       this.drawGraph();
     },
     methods: {
+      
+      
+      scaleTime(fusedAmount) {
+        let newData = [];
+        let i = 0;
+        while(i < this.data.length){
+          let newEvent = this.data[i];
+          let j = i + 1;
+          while(j < this.data.length && this.data[i].time > this.data[j].time - fusedAmount){
+            newEvent.event += this.data[j].event;
+            console.log(newEvent);
+            j++;
+          }
+          newData.push(newEvent);
+          i = j;
+        }
+        console.log(newData);
+        this.data = newData;
+      },
+
+      debug(){
+        //console.log(this.data[1].time);
+      },
+
       drawGraph() {
         // Get the canvas element and its context
         const canvas = this.$refs.graphCanvas;
