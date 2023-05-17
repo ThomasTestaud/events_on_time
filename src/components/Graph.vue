@@ -34,7 +34,8 @@ export default {
   methods: {
     
     ajaxRequest() {
-      axios.get('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=1')
+      const graphId = this.$route.params.id; // Get the graph ID from the route
+      axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`)
       .then(response => {
         this.graphData = response.data;
         this.graphTitle = response.data[0].graphName;

@@ -1,6 +1,13 @@
-<template>
-    
-        <h2>xxc</h2>
+  <template>
+    <template v-if="listData.length > 0">
+        <div v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
+            <h2>{{ graph.name }}</h2>
+            <p>{{ graph.type }}</p>
+        </div>
+    </template>
+    <template v-else>
+      <p>Loading...</p>
+    </template>
   </template>
   
   <script>
@@ -30,7 +37,11 @@
         .catch(error => {
           console.log(error);
         });
-      }
+      },
+
+      goToGraph(graphId) {
+      this.$router.push({ path: `/graph/${graphId}` });
+    }
       
     }
   
