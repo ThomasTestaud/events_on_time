@@ -1,4 +1,5 @@
 <template>
+  <nav @click="goToList()" style="text-align:left;">Back</nav>
   <template v-if="graphData.length > 0">
     <h2>{{ graphTitle }}</h2>
       <GraphComponent :graphData="graphData" :key="componentKey"/>
@@ -35,6 +36,10 @@ export default {
 
   methods: {
 
+    goToList() {
+      this.$router.push({ path: `/list` });
+    },
+
     reloadComponent() {
       this.componentKey += 1;
     },
@@ -50,7 +55,7 @@ export default {
 
       axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php', requestBody)
         .then(response => {
-          console.log(response.data);
+          //console.log(response.data);
           this.graphData = response.data;
           this.graphTitle = response.data[0].graphName;
           this.graphType = response.data[0].graphType;

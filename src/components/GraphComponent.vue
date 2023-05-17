@@ -1,8 +1,8 @@
 <template>
   <div>
-    <canvas ref="graphCanvas" :width="canvasWidth" :height="canvasHeight"></canvas>
-    <input type="number" v-model="stepTime">
-    <button @click="drawAll()">Apply</button>
+    <canvas ref="graphCanvas" :width="canvasWidth" :height="canvasHeight"></canvas><br/>
+    <label for="stepTime">Fuse points: </label>
+    <input name="stepTime" type="number" v-model="stepTime" @change="updateStepTime()">
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     return {
       canvasWidth: 400,
       canvasHeight: 300,
-      stepTime: 0,
+      stepTime: localStorage.getItem(this.graphData[0].graphName),
       rawData: [], // Added rawData property
       data: [],
     };
@@ -30,6 +30,13 @@ export default {
     this.drawAll();
   },
   methods: {
+
+    updateStepTime() {
+      console.log(this.graphData[0].graphName);
+      localStorage.setItem(this.graphData[0].graphName, this.stepTime);
+      this.drawAll();
+    },
+
     drawAll() {
       this.scaleTime(this.stepTime);
       this.drawGraph();
@@ -110,4 +117,12 @@ export default {
     },
   };
   </script>
+
+  <style scoped>
+
+    input {
+      margin-bottom: 2rem;
+    }
+
+  </style>
   
