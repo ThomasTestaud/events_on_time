@@ -53,7 +53,7 @@ export default {
         graphId: graphId
       };
 
-      axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php', requestBody)
+      axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=new-event', requestBody)
         .then(response => {
           //console.log(response.data);
           this.graphData = response.data;
