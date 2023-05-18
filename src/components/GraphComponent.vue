@@ -16,7 +16,7 @@ export default {
     return {
       canvasWidth: 400,
       canvasHeight: 300,
-      stepTime: localStorage.getItem(this.graphData[0].graphName),
+      stepTime: this.getStepTime(),
       rawData: [], // Added rawData property
       data: [],
     };
@@ -31,8 +31,12 @@ export default {
   },
   methods: {
 
+    getStepTime() {
+      return localStorage.getItem(this.graphData[0].graphName) === null ? 2 : localStorage.getItem(this.graphData[0].graphName);
+    },
+
     updateStepTime() {
-      console.log(this.graphData[0].graphName);
+      //console.log(this.graphData[0].graphName);
       localStorage.setItem(this.graphData[0].graphName, this.stepTime);
       this.drawAll();
     },

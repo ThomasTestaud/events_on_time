@@ -1,5 +1,5 @@
 <template>
-  <nav @click="goToList()" style="text-align:left;">Back</nav>
+  <router-link to="/list">Back</router-link>
   <template v-if="graphData.length > 0">
     <h2>{{ graphTitle }}</h2>
       <GraphComponent :graphData="graphData" :key="componentKey"/>

@@ -1,4 +1,5 @@
   <template>
+    <router-link class="link" to="/new-graph">New Graph</router-link>
     <template v-if="listData.length > 0">
         <div v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
             <h2>{{ graph.name }}</h2>
@@ -47,3 +48,7 @@
   
   }
   </script>
+
+  <style scoped>
+    
+  </style>
