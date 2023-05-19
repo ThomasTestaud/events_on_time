@@ -30,7 +30,7 @@
     methods: {
       
       ajaxRequest() {
-        axios.get('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graphs&userId=1')
+        axios.get('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=list&userId=1')
         .then(response => {
           this.listData = response.data;
           //console.log(response.data);

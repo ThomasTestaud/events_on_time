@@ -30,7 +30,7 @@
             graphName: this.graphName
         };
 
-        axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=new-graph&userId=1', requestBody)
+        axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&userId=1', requestBody)
         .then(response => {
             //console.log('response request');
             console.log(response.data);

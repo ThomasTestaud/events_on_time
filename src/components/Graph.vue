@@ -1,5 +1,6 @@
 <template>
   <router-link to="/list">Back</router-link>
+  <button class="delete-graph-button" @click="deleteGraph()">Delete Graph</button>
   <template v-if="graphData.length > 0">
     <h2>{{ graphTitle }}</h2>
       <GraphComponent :graphData="graphData" :key="componentKey"/>
@@ -53,7 +54,7 @@ export default {
         graphId: graphId
       };
 
-      axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=new-event', requestBody)
+      axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=event', requestBody)
         .then(response => {
           //console.log(response.data);
           this.graphData = response.data;
@@ -79,9 +80,30 @@ export default {
       .catch(error => {
         console.log(error);
       });
+    },
+
+    deleteGraph() {
+      const graphId = this.$route.params.id; // Get the graph ID from the route
+      axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`)
+        .then(response => {
+          // Redirect to '/list' route upon successful deletion
+          console.log(response.data);
+          this.$router.push('/list');
+        })
+        .catch(error => {
+          // Handle error if the deletion request fails
+          console.error(error);
+        });
     }
     
   }
 
 }
 </script>
+<style scoped>
+  .delete-graph-button{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+</style>
