@@ -1,5 +1,6 @@
   <template>
     <router-link class="link" to="/new-graph">New Graph</router-link>
+    <button @click="deconnect">Deconexion</button>
     <template v-if="listData.length > 0">
         <div v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
             <h2>{{ graph.name }}</h2>
@@ -41,8 +42,12 @@
       },
 
       goToGraph(graphId) {
-      this.$router.push({ path: `/graph/${graphId}` });
-    }
+        this.$router.push({ path: `/graph/${graphId}` });
+      },
+
+      deconnect() {
+        this.$router.push({ path: `/connect/` });
+      }
       
     }
   
