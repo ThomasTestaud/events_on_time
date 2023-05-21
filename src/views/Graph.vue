@@ -54,7 +54,8 @@ export default {
         graphId: graphId
       };
 
-      axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=event', requestBody)
+      // axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=event', requestBody) // DEV
+      axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=event', requestBody) //PROD
         .then(response => {
           //console.log(response.data);
           this.graphData = response.data;
@@ -69,7 +70,8 @@ export default {
     
     ajaxRequest() {
       const graphId = this.$route.params.id; // Get the graph ID from the route
-      axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`)
+      // axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`) // DEV
+      axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`) // PROD
       .then(response => {
         this.graphData = response.data;
         this.graphTitle = response.data[0].graphName;
@@ -84,7 +86,8 @@ export default {
 
     deleteGraph() {
       const graphId = this.$route.params.id; // Get the graph ID from the route
-      axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`)
+      //axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`) // DEV
+      axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`) // PROD
         .then(response => {
           // Redirect to '/list' route upon successful deletion
           console.log(response.data);

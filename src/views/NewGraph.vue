@@ -30,12 +30,10 @@
             graphName: this.graphName
         };
 
-        axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&userId=1', requestBody)
+        // axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&userId='+ localStorage.getItem("userId"), requestBody) // DEV
+        axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=graph&userId='+ localStorage.getItem("userId"), requestBody) // PROD
         .then(response => {
-            //console.log('response request');
-            console.log(response.data);
-            //console.log(this.graphName);
-            
+          
             //Redirect to the newly created graph
             this.$router.push({ path: `/graph/${response.data}` });
         })

@@ -1,11 +1,12 @@
   <template>
+    <p>{{ errors }}</p>
     <label for="">Username</label><br>
-    <input type="text"><br>
+    <input type="text" v-model="username"><br>
     <label for="">Password</label><br>
-    <input type="password"><br>
+    <input type="password" v-model="password"><br>
     <label for="">Confirm Password</label><br>
-    <input type="password"><br>
-    <button @click="createAccount">Create account</button><br>
+    <input type="password" v-model="confirmPassword"><br>
+    <button @click="verifyPassword">Create account</button><br>
     <router-link class="link" to="/connect">I have an account</router-link>
   </template>
   
@@ -15,27 +16,52 @@
   export default {
     name: 'CreateUser',
 
-  
-    mounted() {
-      this.ajaxRequest();
+    data() {
+      return {
+        username: "",
+        password: "",
+        confirmPassword: "",
+        errors: ""
+      };
     },
   
     methods: {
-      
-      createAccount() {
-        this.$router.push({ path: `/list/` });
+
+      verifyPassword() {
+        /*
+        //this.errors = "Please make sure both passwords are the same.";
+        console.log(this.username);
+        console.log(this.password);
+        console.log(this.confirmPassword);*/
+        
+        if(this.password === this.confirmPassword){
+          this.createAccount();
+        }else{
+          this.errors = "Please make sure both passwords are the same.";
+        }
       },
 
-      ajaxRequest() {
-        axios.get('')
+      
+      createAccount() {
+
+        const requestBody = {
+            userName: this.username,
+            userPassword: this.password
+        };
+
+        // axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=user', requestBody) // DEV
+        axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=user', requestBody) // PROD
         .then(response => {
-          this.listData = response.data;
+          
           //console.log(response.data);
+          
+          localStorage.setItem("userId", response.data.id);
+          this.$router.push({ path: `/list/` });
         })
         .catch(error => {
           console.log(error);
         });
-      }
+      },
       
     }
   
