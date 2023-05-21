@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Graph from '../components/Graph.vue';
-import List from '../components/List.vue';
-import NewGraph from '../components/NewGraph.vue';
+import Graph from '../views/Graph.vue';
+import List from '../views/List.vue';
+import NewGraph from '../views/NewGraph.vue';
 
 
 

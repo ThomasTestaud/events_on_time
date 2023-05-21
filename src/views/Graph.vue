@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import GraphComponent from './GraphComponent.vue' 
+import GraphComponent from '../components/GraphComponent.vue' 
 import axios from 'axios';
 
 export default {
