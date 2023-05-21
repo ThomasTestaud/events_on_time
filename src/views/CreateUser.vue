@@ -28,17 +28,13 @@
     methods: {
 
       verifyPassword() {
-        /*
-        //this.errors = "Please make sure both passwords are the same.";
-        console.log(this.username);
-        console.log(this.password);
-        console.log(this.confirmPassword);*/
         
         if(this.password === this.confirmPassword){
           this.createAccount();
         }else{
           this.errors = "Please make sure both passwords are the same.";
         }
+        
       },
 
       

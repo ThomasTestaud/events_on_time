@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      canvasWidth: 400,
+      canvasWidth: this.calculateGraphWidth(),
       canvasHeight: 300,
       stepTime: this.getStepTime(),
       rawData: [], // Added rawData property
@@ -64,7 +64,17 @@ export default {
       this.data = newData;
     },
 
+    calculateGraphWidth() {
+      let screenWidth = window.innerWidth;
+        if(screenWidth < 500){
+          return screenWidth - 20;
+        }else {
+          return 500;
+        }
+    },
+
       drawGraph() {
+        
         // Get the canvas element and its context
         const canvas = this.$refs.graphCanvas;
         const ctx = canvas.getContext("2d");
