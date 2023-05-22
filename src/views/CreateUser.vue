@@ -7,7 +7,7 @@
     <label for="">Confirm Password</label><br>
     <input type="password" v-model="confirmPassword"><br>
     <button @click="verifyPassword">Create account</button><br>
-    <router-link class="link" to="/connect">I have an account</router-link>
+    <router-link class="hover-3" to="/connect">I have an account</router-link>
   </template>
   
   <script>
@@ -51,8 +51,10 @@
           
           //console.log(response.data);
           
-          localStorage.setItem("userId", response.data.id);
-          this.$router.push({ path: `/list/` });
+          localStorage.setItem("userId", response.data);
+          this.$router.push({ path: `/` });
+
+          console.log(localStorage.getItem("userId"));
         })
         .catch(error => {
           console.log(error);

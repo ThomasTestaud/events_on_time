@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/list">Back</router-link>
+    <router-link class="nav hover-1" to="/">Back</router-link>
     <h1>New Graph</h1>
     <label for="">Graph Name</label><br>
     <input type="text" v-model="graphName"><br>
@@ -33,7 +33,7 @@
         // axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&userId='+ localStorage.getItem("userId"), requestBody) // DEV
         axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=graph&userId='+ localStorage.getItem("userId"), requestBody) // PROD
         .then(response => {
-          
+            
             //Redirect to the newly created graph
             this.$router.push({ path: `/graph/${response.data}` });
         })

@@ -1,13 +1,13 @@
   <template>
-    <button id="deconnect" @click="deconnect">Deconexion</button>
-    <router-link class="new-graph" to="/new-graph">Create New Graph</router-link>
+    <button id="deconnect" @click="deconnect" class="hover-2">Deconexion</button>
+    <router-link class="new-graph hover-1" to="/new-graph">Create New Graph</router-link>
     <ul v-if="listData.length > 0">
-        <li v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
-            <h2>{{ graph.name }}</h2>
+        <li class="hover-3" v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
+            {{ graph.name }}
         </li>
     </ul>
     <template v-else>
-      <p>Loading...</p>
+      <p id="request-status">{{ requestStatus }}</p>
     </template>
   </template>
   
@@ -20,7 +20,8 @@
     data() {
       return {
         listData: [],
-        userId: null
+        userId: null,
+        requestStatus: "Loading..."
       }
     },
   
@@ -32,10 +33,13 @@
     methods: {
       
       ajaxRequest() {
+
+        console.log()
         //axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=list&userId=${this.userId}`) //DEV
         axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=list&userId=${this.userId}`) //PROD
         .then(response => {
           this.listData = response.data;
+          this.requestStatus = "No list has been found for this user..."
         })
         .catch(error => {
           console.log(error);
@@ -53,11 +57,9 @@
 
       getUserId() {
         if(localStorage.getItem("userId") === null){
-          //console.log('connect');
           this.$router.push({ path: `/connect/` });
         }else{
           this.userId = localStorage.getItem("userId");
-          //console.log(this.userId);
         }
       }
 
@@ -75,9 +77,7 @@
     }
 
     h2 {
-      border: 1px solid black;
-      border-radius: 3px;
-      padding: 1rem;
+      
     }
 
     .new-graph {
@@ -86,12 +86,32 @@
       border: 1px solid black;
       border-radius: 2rem;
       padding: 1rem;
+      position: relative;
+      top: 1rem;
     }
 
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
+      position: relative;
+      top: 2.5rem;
+      max-width: 1000px;
+      margin: auto;
+      margin-bottom: 4rem;
+    }
+
+    li {
+      cursor: pointer;
+      border: 1px solid black;
+      border-radius: 3px;
+      padding: 1rem;
+      margin: 1rem;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    #request-status {
       position: relative;
       top: 2rem;
     }

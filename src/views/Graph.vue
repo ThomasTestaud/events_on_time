@@ -1,6 +1,6 @@
 <template>
-  <router-link to="/list">Back</router-link>
-  <button class="delete-graph-button" @click="deleteGraph()">Delete Graph</button>
+  <router-link class="nav hover-1" to="/">Back</router-link>
+  <button class="delete-graph-button hover-2" @click="deleteGraph()">Delete Graph</button>
   <template v-if="graphData.length > 0">
     <h2>{{ graphTitle }}</h2>
       <GraphComponent :graphData="graphData" :key="componentKey"/>
@@ -8,7 +8,7 @@
     <template v-else>
       <p>This graph has no data...</p>
     </template>
-    <button @click="addPoint()">Add point</button>
+    <button id="add-event" class="hover-3" @click="addPoint()">Add event</button>
 </template>
 
 <script>
@@ -38,7 +38,7 @@ export default {
   methods: {
 
     goToList() {
-      this.$router.push({ path: `/list` });
+      this.$router.push({ path: `/` });
     },
 
     reloadComponent() {
@@ -91,7 +91,7 @@ export default {
         .then(response => {
           // Redirect to '/list' route upon successful deletion
           console.log(response.data);
-          this.$router.push('/list');
+          this.$router.push('/');
         })
         .catch(error => {
           // Handle error if the deletion request fails
@@ -109,4 +109,11 @@ export default {
     right: 1rem;
     top: 1rem;
   }
+
+  #add-event {
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-radius: 2rem;
+  }
+
 </style>

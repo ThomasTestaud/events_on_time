@@ -13,7 +13,7 @@ const routes = [
         component: Graph
     },
     {
-        path: '/list',
+        path: '/',
         component: List
     },
     {

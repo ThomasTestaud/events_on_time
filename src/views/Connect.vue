@@ -4,7 +4,7 @@
     <input type="text" v-model="username"><br>
     <label for="">Password</label><br>
     <input type="password" v-model="password"><br>
-    <button @click="connect">Connexion</button><br>
+    <button @click="connect" class="hover-3">Connexion</button><br>
     <router-link class="link" to="/create-account">Create a new account</router-link>
   </template>
   
@@ -38,7 +38,7 @@
             this.errors = "Username or password incorrect."
           }else{
             localStorage.setItem("userId", response.data.id);
-            this.$router.push({ path: `/list/` });
+            this.$router.push({ path: `/` });
           }
 
         })
