@@ -53,5 +53,16 @@
   </script>
 
   <style scoped>
+    input {
+      margin-bottom: 2rem;
+    }
     
+    label {
+      font-size: 1.5rem;
+    }
+
+    button {
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
   </style>

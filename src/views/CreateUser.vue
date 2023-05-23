@@ -6,8 +6,8 @@
     <input type="password" v-model="password"><br>
     <label for="">Confirm Password</label><br>
     <input type="password" v-model="confirmPassword"><br>
-    <button @click="verifyPassword">Create account</button><br>
-    <router-link class="hover-3" to="/connect">I have an account</router-link>
+    <button  class="hover-3" @click="verifyPassword">Create account</button><br>
+    <router-link to="/connect">I have an account</router-link>
   </template>
   
   <script>
@@ -67,5 +67,16 @@
   </script>
 
   <style scoped>
+    input {
+      margin-bottom: 2rem;
+    }
     
+    label {
+      font-size: 1.5rem;
+    }
+
+    button {
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
   </style>
