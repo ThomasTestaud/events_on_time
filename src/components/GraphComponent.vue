@@ -1,9 +1,34 @@
 <template>
   <div>
     <canvas ref="graphCanvas" :width="canvasWidth" :height="canvasHeight"></canvas><br/>
-    <p>Group by 
-    <input name="stepTime" type="number" v-model="stepTime" @change="updateStepTime()"> seconds.
-    </p>
+    <template v-if="configPannel">
+      <div id="close-config">
+        <svg @click="closeConfig" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </div>
+      <div class="checkboxs">
+        <span>
+          <input @change="toggleValue('dots')" type="checkbox" id="dots" checked>
+          <label for="dots">Blue dots</label>
+        </span>
+        <span>
+          <input @change="toggleValue('lines')" type="checkbox" id="lines" checked>
+          <label for="lines">Red lines</label>
+        </span>
+        <span>
+          <input @change="toggleValue('indexLines')" type="checkbox" id="index-lines" checked>
+          <label for="index-lines">Index lines</label>
+        </span>
+      </div>
+      <p>Group by 
+      <input name="stepTime" type="number" v-model="stepTime" @change="updateStepTime()"> seconds.
+      </p>
+
+    </template>
+    <template v-else>
+      <div id="open-config" >
+        <svg @click="openConfig" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z" /><path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z" /></svg>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -15,12 +40,19 @@ export default {
   },
   data() {
     return {
+      graphId: parseInt(this.$route.params.id),
+      configPannel: false,
       canvasWidth: this.calculateGraphWidth(),
       canvasHeight: this.calculateGraphHeight(),
       stepTime: this.getStepTime(),
       rawData: [], // Added rawData property
       data: [],
     };
+  },
+  created() {
+    this.dots = this.getCheckboxValues('dots');
+    this.lines = this.getCheckboxValues('lines');
+    this.indexLines = this.getCheckboxValues('indexLines');
   },
   mounted() {
     this.rawData = this.graphData.map(obj => ({
@@ -29,15 +61,43 @@ export default {
       y_value: parseInt(obj.y_value)
     })); // Convert the array from string to int
     this.drawAll();
+    
   },
   methods: {
+
+    toggleValue(property) {
+      if (this[property]) {
+        this[property] = false;
+        localStorage.setItem(property + this.graphId, 'false'); // Store the string 'false' in localStorage
+      } else {
+        this[property] = true;
+        localStorage.setItem(property + this.graphId, 'true'); // Store the string 'true' in localStorage
+      }
+      this.drawGraph();
+    },
+
+
+    getCheckboxValues(property) {
+      const storedValue = localStorage.getItem(property + this.graphId);
+      if (storedValue !== null) {
+        return storedValue === 'true';
+      }
+      return true;
+    },
+
+    openConfig() {
+      this.configPannel = true;
+    },
+
+    closeConfig() {
+      this.configPannel = false;
+    },
 
     getStepTime() {
       return localStorage.getItem(this.graphData[0].graphName) === null ? 3600 : localStorage.getItem(this.graphData[0].graphName);
     },
 
     updateStepTime() {
-      //console.log(this.graphData[0].graphName);
       localStorage.setItem(this.graphData[0].graphName, this.stepTime);
       this.drawAll();
     },
@@ -143,53 +203,76 @@ export default {
         ctx.fillText(firstPointDate, 40, this.canvasHeight - 20);
         ctx.fillText(lastPointDate, graphWidth, this.canvasHeight - 20);
 
-        //DRAW LINES
-        // Iterate over the data array and draw each data point
+
+
+/*
+
+        //DRAW HORIZONTAL LINES
+        this.data.forEach((d) => {
+          const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
+
+          ctx.strokeStyle = "#e5e5e5";
+          ctx.beginPath();
+          ctx.moveTo(graphMargin + 1, y);
+          ctx.lineTo(graphMargin + 20 + graphWidth, y);
+          ctx.stroke();
+          
+        });*/
+
+        
         this.data.forEach((d, index) => {
-          // Calculate the x and y coordinates for the data point
           const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
           
-          if (index > 0) {
-            const prevX = graphMargin + ((this.data[index - 1].x_value - minX) / (maxX - minX)) * graphWidth;
-            const prevY = this.canvasHeight - graphMargin - (this.data[index - 1].y_value / maxY) * graphHeight;
-            
-            ctx.strokeStyle = "#ff8c8c";
+          if(this.indexLines){
+            //DRAW HORIZONTAL LINES
+            ctx.strokeStyle = "#e5e5e5";
             ctx.beginPath();
-            ctx.moveTo(prevX, prevY);
-            ctx.lineTo(x, y);
+            ctx.moveTo(graphMargin + 1, y);
+            ctx.lineTo(graphMargin + 20 + graphWidth, y);
             ctx.stroke();
           }
+          
+          if(this.lines){
+            //DRAW RED LINES
+            if (index > 0) {
+              const prevX = graphMargin + ((this.data[index - 1].x_value - minX) / (maxX - minX)) * graphWidth;
+              const prevY = this.canvasHeight - graphMargin - (this.data[index - 1].y_value / maxY) * graphHeight;
+              ctx.strokeStyle = "#ff8c8c";
+              ctx.beginPath();
+              ctx.moveTo(prevX, prevY);
+              ctx.lineTo(x, y);
+              ctx.stroke();
+            }
+          }
+
         });
 
-        //DRAW DOTS
-        // Iterate over the data array and draw each data point
+        
         this.data.forEach((d) => {
           // Calculate the x and y coordinates for the data point
           const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
 
-          //WRITE Y VALUES
-          // Clear background
-          //ctx.clearRect(0, d.y_value -12, graphMargin, 14);
-          // Set the font properties
+          //DRAW TEXT NUMBER Y VALUES
           ctx.font = '12px Arial';
           ctx.fillStyle = 'black';
           const textWidth = ctx.measureText(d.y_value).width;
-          // Draw the text on the canvas
           ctx.fillText(d.y_value, 30-textWidth, y - 0);
 
-          
-          // Set the fill style for the data points
-          ctx.fillStyle = "blue";
-          ctx.beginPath();
-
-          // Draw the circle representing the data point
-          ctx.beginPath();
-          ctx.arc(x, y, 5, 0, 2 * Math.PI); // Create a circle path
-          ctx.fill(); // Fill the circle with the specified fill style
+          if(this.dots){
+            //DRAW DOTS
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.fill();
+          }
           
         });
+
+
+        
       },
 
     },
@@ -205,6 +288,28 @@ export default {
     p {
       margin: 0px;
     }
+    svg {
+      height:  2rem;
+      cursor: pointer;
+    }
 
+    #open-config,
+    #close-config {
+      text-align: right;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    input[type="checkbox" i]{
+      width: 2rem;
+    }
+
+    .checkboxs label {
+      margin-right: 2rem;
+    }
+
+    .checkboxs input {
+      cursor: pointer;
+    }
   </style>
   
