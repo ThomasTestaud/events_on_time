@@ -65,25 +65,7 @@ export default {
   },
   methods: {
 
-    toggleValue(property) {
-      if (this[property]) {
-        this[property] = false;
-        localStorage.setItem(property + this.graphId, 'false'); // Store the string 'false' in localStorage
-      } else {
-        this[property] = true;
-        localStorage.setItem(property + this.graphId, 'true'); // Store the string 'true' in localStorage
-      }
-      this.drawGraph();
-    },
-
-
-    getCheckboxValues(property) {
-      const storedValue = localStorage.getItem(property + this.graphId);
-      if (storedValue !== null) {
-        return storedValue === 'true';
-      }
-      return true;
-    },
+    ///////////////////////////CONFIG PANNEL///////////////////
 
     openConfig() {
       this.configPannel = true;
@@ -93,37 +75,35 @@ export default {
       this.configPannel = false;
     },
 
-    getStepTime() {
-      return localStorage.getItem(this.graphData[0].graphName) === null ? 3600 : localStorage.getItem(this.graphData[0].graphName);
+    toggleValue(property) { // Save the value of each checkbox in the localstorage
+      if (this[property]) {
+        this[property] = false;
+        localStorage.setItem(property + this.graphId, 'false');
+      } else {
+        this[property] = true;
+        localStorage.setItem(property + this.graphId, 'true');
+      }
+      this.drawGraph();
     },
 
-    updateStepTime() {
+    getCheckboxValues(property) { // Fetch the value of a given checkbox in the localstorage
+      const storedValue = localStorage.getItem(property + this.graphId);
+      if (storedValue !== null) {
+        return storedValue === 'true';
+      }
+      return true;
+    },
+
+    updateStepTime() { // Save the value of the time steps in the local storage
       localStorage.setItem(this.graphData[0].graphName, this.stepTime);
       this.drawAll();
     },
 
-    drawAll() {
-      this.scaleTime(this.stepTime);
-      this.drawGraph();
+    getStepTime() {  // Fetch the value of the time steps in the local storage
+      return localStorage.getItem(this.graphData[0].graphName) === null ? 3600 : localStorage.getItem(this.graphData[0].graphName);
     },
-    scaleTime(fusedAmount) {
-      const newData = [];
-      let i = 0;
-      while (i < this.rawData.length) {
-        let newEvent = { ...this.rawData[i] };
-        let j = i + 1;
-        while (
-          j < this.rawData.length &&
-          this.rawData[i].x_value > this.rawData[j].x_value - fusedAmount
-        ) {
-          newEvent.y_value += this.rawData[j].y_value;
-          j++;
-        }
-        newData.push(newEvent);
-        i = j;
-      }
-      this.data = newData;
-    },
+
+    ///////////////////////////GRAPH///////////////////
 
     calculateGraphWidth() {
       let screenWidth = window.innerWidth;
@@ -143,12 +123,40 @@ export default {
         }
     },
 
+    drawAll() {
+      this.scaleTime(this.stepTime);
+      this.drawGraph();
+    },
+
+    scaleTime(fusedAmount) { //O(n2)
+      const newData = [];
+      let i = 0;
+      while (i < this.rawData.length) {
+        let newEvent = { ...this.rawData[i] };
+        let j = i + 1;
+        while (
+          j < this.rawData.length &&
+          this.rawData[i].x_value > this.rawData[j].x_value - fusedAmount
+        ) {
+          newEvent.y_value += this.rawData[j].y_value;
+          j++;
+        }
+        newData.push(newEvent);
+        i = j;
+      }
+      this.data = newData;
+    },
+
+    sortArrayByBiggest(array) {
+      return array.sort((a, b) => b.y_value - a.y_value);
+    },
+
       drawGraph() {
         // Get the canvas element and its context
         const canvas = this.$refs.graphCanvas;
         const ctx = canvas.getContext("2d");
 
-        //////////////////////CALCULATE STUFF
+        //////////////////////CALCULATE STUFF//////////////////////
         const graphMargin = 40;
         const firstPointDate = new Date(Math.min(...this.data.map((d) => d.x_value)) * 1000).toLocaleDateString('en-GB');
         const lastPointDate = new Date(Math.max(...this.data.map((d) => d.x_value)) * 1000).toLocaleDateString('en-GB');        // Calculate the dimensions of the graph area
@@ -164,7 +172,7 @@ export default {
         //const minY = Math.min(...this.data.map((d) => d.y_value));
         
 
-        //////////////////////DRAW STUFF
+        //////////////////////DRAW STUFF//////////////////////
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
@@ -204,29 +212,14 @@ export default {
         ctx.fillText(lastPointDate, graphWidth, this.canvasHeight - 20);
 
 
-
-/*
-
-        //DRAW HORIZONTAL LINES
-        this.data.forEach((d) => {
-          const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
-
-          ctx.strokeStyle = "#e5e5e5";
-          ctx.beginPath();
-          ctx.moveTo(graphMargin + 1, y);
-          ctx.lineTo(graphMargin + 20 + graphWidth, y);
-          ctx.stroke();
-          
-        });*/
-
-        
+        // Iterate over the array of data
         this.data.forEach((d, index) => {
           const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
           
           if(this.indexLines){
             //DRAW HORIZONTAL LINES
-            ctx.strokeStyle = "#e5e5e5";
+            ctx.strokeStyle = "#cecece";
             ctx.beginPath();
             ctx.moveTo(graphMargin + 1, y);
             ctx.lineTo(graphMargin + 20 + graphWidth, y);
@@ -248,12 +241,12 @@ export default {
 
         });
 
-        
+        // Iterate over the array of data a second time to avoid overlapping of lines
         this.data.forEach((d) => {
           // Calculate the x and y coordinates for the data point
           const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
-
+          
           //DRAW TEXT NUMBER Y VALUES
           ctx.font = '12px Arial';
           ctx.fillStyle = 'black';
@@ -268,7 +261,6 @@ export default {
             ctx.arc(x, y, 5, 0, 2 * Math.PI);
             ctx.fill();
           }
-          
         });
 
 
