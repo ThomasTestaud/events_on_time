@@ -7,15 +7,15 @@
       </div>
       <div class="checkboxs">
         <span>
-          <input @change="toggleValue('dots')" type="checkbox" id="dots" checked>
+          <input @change="toggleValue('dots')" type="checkbox" id="dots" :checked="dots">
           <label for="dots">Blue dots</label>
         </span>
         <span>
-          <input @change="toggleValue('lines')" type="checkbox" id="lines" checked>
+          <input @change="toggleValue('lines')" type="checkbox" id="lines" :checked="lines">
           <label for="lines">Red lines</label>
         </span>
         <span>
-          <input @change="toggleValue('indexLines')" type="checkbox" id="index-lines" checked>
+          <input @change="toggleValue('indexLines')" type="checkbox" id="index-lines" :checked="indexLines">
           <label for="index-lines">Index lines</label>
         </span>
       </div>
