@@ -34,12 +34,20 @@
       
       ajaxRequest() {
 
-        console.log()
-        //axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=list&userId=${this.userId}`) //DEV
-        axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=list&userId=${this.userId}`) //PROD
+        // Retrieve the JWT token from local storage
+        const token = localStorage.getItem('token');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=list`, config) //DEV
+        //axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=list&userId=${this.userId}`, config) //PROD
         .then(response => {
           this.listData = response.data;
           this.requestStatus = "No list has been found for this user..."
+          //console.log(this.userId);
+          console.log(response.data);
         })
         .catch(error => {
           console.log(error);
@@ -52,6 +60,7 @@
 
       deconnect() {
         localStorage.setItem("userId", null);
+        localStorage.setItem("token", null);
         this.$router.push({ path: `/connect/` });
       },
 

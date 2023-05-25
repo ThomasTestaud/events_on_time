@@ -47,15 +47,23 @@ export default {
 
     addPoint() {
       const graphId = this.$route.params.id; // Get the graph ID from the route
+      
       const graphType = this.graphType; // Set the graph type value
 
       const requestBody = {
         graphType: graphType,
         graphId: graphId
       };
+      
+      const token = localStorage.getItem('token');
+      const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
 
-      // axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=event', requestBody) // DEV
-      axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=event', requestBody) //PROD
+       axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=event', requestBody, config) // DEV
+      //axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=event', config, requestBody) //PROD
         .then(response => {
           //console.log(response.data);
           this.graphData = response.data;
@@ -69,9 +77,15 @@ export default {
     },
     
     ajaxRequest() {
+      const token = localStorage.getItem('token');
+      const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
       const graphId = this.$route.params.id; // Get the graph ID from the route
-      // axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`) // DEV
-      axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`) // PROD
+       axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`, config) // DEV
+      // axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
       .then(response => {
         this.graphData = response.data;
         this.graphTitle = response.data[0].graphName;
@@ -85,9 +99,15 @@ export default {
     },
 
     deleteGraph() {
+      const token = localStorage.getItem('token');
+      const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
       const graphId = this.$route.params.id; // Get the graph ID from the route
-      //axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`) // DEV
-      axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`) // PROD
+      axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`, config) // DEV
+      //axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
         .then(response => {
           // Redirect to '/list' route upon successful deletion
           console.log(response.data);

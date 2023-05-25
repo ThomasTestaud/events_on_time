@@ -30,8 +30,14 @@
             graphName: this.graphName
         };
 
-        // axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&userId='+ localStorage.getItem("userId"), requestBody) // DEV
-        axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=graph&userId='+ localStorage.getItem("userId"), requestBody) // PROD
+        const token = localStorage.getItem('token');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+         axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph', requestBody, config) // DEV
+        // axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=graph&userId='+ localStorage.getItem("userId"), config, requestBody) // PROD
         .then(response => {
             
             //Redirect to the newly created graph
