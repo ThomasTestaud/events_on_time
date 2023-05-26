@@ -36,6 +36,7 @@
 
         // Retrieve the JWT token from local storage
         const token = localStorage.getItem('token');
+        //console.log(token);
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
@@ -46,8 +47,8 @@
         .then(response => {
           this.listData = response.data;
           this.requestStatus = "No list has been found for this user..."
-          //console.log(this.userId);
-          console.log(response.data);
+          
+          //console.log(response.data);
         })
         .catch(error => {
           console.log(error);

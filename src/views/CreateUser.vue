@@ -44,21 +44,19 @@
             userName: this.username,
             userPassword: this.password
         };
-
+        
         axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=user', requestBody) // DEV
         // axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=user', requestBody) // PROD
         .then(response => {
           
-          localStorage.getItem("userId"));
-
-          localStorage.setItem("userId", response.data.userId);
-
-            //console.log(response.data.userId);
-            const token = response.data.token; // Assuming the API response includes a 'token' field
+          if(response.data.auth){
+            const token = response.data.token;
             localStorage.setItem("token", token); // Save the JWT token in local storage
-
-            //console.log(token);
             this.$router.push({ path: `/` });
+          }else{
+            this.errors = "Username or password incorrect.";
+          }
+
         })
         .catch(error => {
           console.log(error);
