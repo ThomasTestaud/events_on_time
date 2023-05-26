@@ -90,7 +90,7 @@ export default {
         this.graphData = response.data;
         this.graphTitle = response.data[0].graphName;
         this.graphType = response.data[0].graphType;
-        //console.log(response.data);
+        console.log(response.data);
         //console.log(this.graphType);
       })
       .catch(error => {

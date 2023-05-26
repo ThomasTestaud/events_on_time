@@ -213,8 +213,8 @@ export default {
 
 
         // Iterate over the array of data
-        this.data.forEach((d, index) => {
-          const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
+        this.data.forEach((d) => {
+          //const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
           
           if(this.indexLines){
@@ -225,7 +225,14 @@ export default {
             ctx.lineTo(graphMargin + 20 + graphWidth, y);
             ctx.stroke();
           }
-          
+
+        });
+
+        // Iterate over the array of data
+        this.data.forEach((d, index) => {
+          const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
+          const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
+
           if(this.lines){
             //DRAW RED LINES
             if (index > 0) {
@@ -238,7 +245,6 @@ export default {
               ctx.stroke();
             }
           }
-
         });
 
         // Iterate over the array of data a second time to avoid overlapping of lines
