@@ -45,8 +45,8 @@
             userPassword: this.password
         };
         
-        axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=user', requestBody) // DEV
-        // axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=user', requestBody) // PROD
+        //axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=user', requestBody) // DEV
+        axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=user', requestBody) // PROD
         .then(response => {
 
           if(response.data.auth){

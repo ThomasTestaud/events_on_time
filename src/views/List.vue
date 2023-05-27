@@ -52,8 +52,8 @@
             Authorization: `Bearer ${token}`
           }
         };
-        axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=list`, config) //DEV
-        //axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=list&userId=${this.userId}`, config) //PROD
+        //axios.get(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=list`, config) //DEV
+        axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=list`, config) //PROD
         .then(response => {
           this.listData = response.data;
           this.requestStatus = "No list has been found for this user..."

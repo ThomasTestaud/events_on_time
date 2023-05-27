@@ -30,9 +30,10 @@
             userPassword: this.password
         };
 
-        axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=connect', requestBody) //DEV
-        //axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=connect', requestBody) //PROD
+        //axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=connect', requestBody) //DEV
+        axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=connect', requestBody) //PROD
         .then(response => {
+          console.log(response.data);
 
           if(response.data.auth){
             const token = response.data.token;
