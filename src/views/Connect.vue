@@ -1,11 +1,13 @@
   <template>
     <p>{{ errors }}</p>
-    <label for="">Username</label><br>
-    <input type="text" v-model="username"><br>
-    <label for="">Password</label><br>
-    <input type="password" v-model="password"><br>
+    <label for="username">Username</label><br>
+    <input type="text" name="username" v-model="username"><br>
+    <label for="password">Password</label><br>
+    <input type="password" name="password" v-model="password"><br>
     <button @click="connect" class="hover-3">Connexion</button><br>
-    <router-link class="link" to="/create-account">Create a new account</router-link>
+    <div class="sub-text-1"><p>Or</p></div>
+    <button id="lastbtn" @click="connectAsJohnDoe()" class="hover-3"><div class="sub-text-1">Connect as </div>John Doe</button><br>
+    <router-link to="/create-account">Create a new account</router-link>
   </template>
   
   <script>
@@ -23,6 +25,33 @@
     },
   
     methods: {
+      connectAsJohnDoe() {
+        const requestBody = {
+            userName: "John Doe",
+            userPassword: "password"
+        };
+
+        //axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=connect', requestBody) //DEV
+        axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=connect', requestBody) //PROD
+            .then(response => {
+              console.log(response.data.token);
+
+              if(response.data.auth){
+                const token = response.data.token;
+                localStorage.setItem("token", token); // Save the JWT token in local storage
+                this.$router.push({ path: `/` });
+              }else{
+                this.errors = "Username or password incorrect.";
+              }
+              
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          
+          
+        
+      },
 
       connect() {
         const requestBody = {
@@ -33,7 +62,7 @@
         //axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=connect', requestBody) //DEV
         axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=connect', requestBody) //PROD
         .then(response => {
-          console.log(response.data);
+          console.log(response.data.token);
 
           if(response.data.auth){
             const token = response.data.token;
@@ -64,7 +93,10 @@
     }
 
     button {
-      margin-bottom: 1.5rem;
       font-size: 1.3rem;
+    }
+
+    #lastbtn {
+      margin-bottom: 1.5rem;
     }
   </style>

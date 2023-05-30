@@ -60,8 +60,11 @@
           
           //console.log(response.data);
         })
-        .catch(error => {
+        .catch(
+          
+          error => {
           console.log(error);
+          this.$router.push({ path: `/connect/` });
         });
       },
 
@@ -70,16 +73,15 @@
       },
 
       deconnect() {
-        localStorage.setItem("userId", null);
         localStorage.setItem("token", null);
         this.$router.push({ path: `/connect/` });
       },
 
       getUserId() {
-        if(localStorage.getItem("userId") === null){
+        //console.log('userId');
+        if(localStorage.getItem('token') === null){
           this.$router.push({ path: `/connect/` });
-        }else{
-          this.userId = localStorage.getItem("userId");
+          //console.log('route');
         }
       }
 

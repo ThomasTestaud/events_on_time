@@ -14,6 +14,11 @@
     --main-color: #2c3e50;
     --main-red: #f06f6f;
     --main-green: #6dcd78;
+    --main-background: rgba(255, 255, 255, 0.842);
+}
+
+html {
+  background-color: var(--main-background);
 }
 
 #app {
@@ -23,6 +28,7 @@
   text-align: center;
   color: var(--main-color);
   margin-top: 80px;
+  
 }
 
 .nav {
@@ -62,10 +68,15 @@
 
 button {
   border: 1px solid var(--main-color);
-  border-radius: 1rem;
-  padding: 0.2rem 0.5rem;
+  border-radius: 3rem;
+  padding: 0.2rem 0.8rem;
   cursor: pointer;
   background-color: inherit;
+}
+
+.sub-text-1 {
+  font-size: 0.9rem;
+  opacity: 0.6;
 }
 
 </style>

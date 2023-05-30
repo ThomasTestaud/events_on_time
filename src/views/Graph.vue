@@ -1,7 +1,7 @@
 <template>
   <router-link class="nav hover-1" to="/">Back</router-link>
   <button class="delete-graph-button hover-2" @click="deleteGraph()">Delete Graph</button>
-  <template v-if="graphData.length > 0">
+  <template v-if="Object.keys(graphData).length > 0">
     <h2>{{ graphTitle }}</h2>
       <GraphComponent :graphData="graphData" :key="componentKey"/>
     </template>
@@ -22,7 +22,6 @@ export default {
     return {
       graphData: [],
       graphTitle: "",
-      graphType: "",
       componentKey: 0,
     }
   },
@@ -47,11 +46,8 @@ export default {
 
     addPoint() {
       const graphId = this.$route.params.id; // Get the graph ID from the route
-      
-      const graphType = this.graphType; // Set the graph type value
 
       const requestBody = {
-        graphType: graphType,
         graphId: graphId
       };
       
@@ -65,10 +61,10 @@ export default {
       //axios.post('http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=event', requestBody, config) // DEV
       axios.post('https://api-events-on-time.thomastestaud.com/index.php?route=event', requestBody, config) //PROD
         .then(response => {
-          //console.log(response.data);
           this.graphData = response.data;
-          this.graphTitle = response.data[0].graphName;
-          this.graphType = response.data[0].graphType;
+          //this.graphTitle = response.data['graphData']['graphName'];
+          this.graphTitle = response.data[0]['graphName'];
+          //console.log(response.data);
           this.reloadComponent();
         })
         .catch(error => {
@@ -88,10 +84,10 @@ export default {
       axios.get(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
       .then(response => {
         this.graphData = response.data;
-        this.graphTitle = response.data[0].graphName;
-        this.graphType = response.data[0].graphType;
-        console.log(response.data);
-        //console.log(this.graphType);
+        //this.graphTitle = response.data['graphData']['graphName'];
+        this.graphTitle = response.data[0]['graphName'];
+        //console.log(response.data['eventsArrays']);
+        //console.log(this.graphData['eventsArrays']);
       })
       .catch(error => {
         console.log(error);
@@ -106,8 +102,8 @@ export default {
           }
         };
       const graphId = this.$route.params.id; // Get the graph ID from the route
-      axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`, config) // DEV
-      //axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
+      //axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`, config) // DEV
+      axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
         .then(response => {
           // Redirect to '/list' route upon successful deletion
           console.log(response.data);
