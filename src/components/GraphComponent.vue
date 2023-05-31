@@ -309,5 +309,11 @@ export default {
     .checkboxs input {
       cursor: pointer;
     }
+
+    canvas {
+      background-color: var(--main-background);
+      border-radius: 1rem;
+      border: 1px solid rgba(189, 189, 189, 0.793);
+    }
   </style>
   

@@ -1,4 +1,7 @@
   <template>
+
+    <LogoTitle :msg="pageName"></LogoTitle>
+    
     <p>{{ errors }}</p>
     <label for="username">Username</label><br>
     <input type="text" name="username" v-model="username"><br>
@@ -12,6 +15,7 @@
   
   <script>
   import axios from 'axios';
+  import LogoTitle from '../components/LogoTitleComponent.vue' 
   
   export default {
     name: 'ConnectView',
@@ -20,8 +24,13 @@
       return {
         username: "",
         password: "",
-        errors: ""
+        errors: "",
+        pageName: "Login Page"
       };
+    },
+
+    components: {
+      LogoTitle
     },
   
     methods: {

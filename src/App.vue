@@ -11,14 +11,14 @@
 <style>
 
 :root {
-    --main-color: #2c3e50;
-    --main-red: #f06f6f;
-    --main-green: #6dcd78;
-    --main-background: rgba(255, 255, 255, 0.842);
+    --main-color: #2c3e50e2;
+    --main-red: #f06f6ff0;
+    --main-green: #6dcd78f2;
+    --main-background: rgba(255, 255, 255, 0.906);
 }
 
 html {
-  background-color: var(--main-background);
+  background-image: url('./assets/endless2.svg');
 }
 
 #app {
@@ -45,6 +45,7 @@ html {
 .hover-1,
 .hover-2,
 .hover-3 {
+  background-color: var(--main-background);
   transition: color 0.5s, background-color 0.5s, border 0.5s;
 }
 

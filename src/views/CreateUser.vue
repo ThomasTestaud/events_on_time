@@ -1,4 +1,5 @@
   <template>
+    <LogoTitle :msg="pageName"></LogoTitle>
     <p>{{ errors }}</p>
     <label for="">Username</label><br>
     <input type="text" v-model="username"><br>
@@ -12,6 +13,7 @@
   
   <script>
   import axios from 'axios';
+  import LogoTitle from '../components/LogoTitleComponent.vue' 
   
   export default {
     name: 'CreateUser',
@@ -21,8 +23,12 @@
         username: "",
         password: "",
         confirmPassword: "",
-        errors: ""
+        errors: "",
+        pageName: "Create account"
       };
+    },
+    components: {
+      LogoTitle
     },
   
     methods: {

@@ -3,7 +3,7 @@
     <h1>New Graph</h1>
     <label for="">Graph Name</label><br>
     <input type="text" v-model="graphName"><br>
-    <button @click="ajaxRequest">Create</button>
+    <button class="hover-3" @click="ajaxRequest">Create</button>
 </template>
   
   <script>
@@ -56,3 +56,11 @@
   
   }
   </script>
+
+  <style scoped>
+
+  input {
+    margin-bottom: 1rem;
+  }
+
+  </style>
