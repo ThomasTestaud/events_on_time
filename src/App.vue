@@ -19,6 +19,7 @@
 
 html {
   background-image: url('./assets/endless2.svg');
+  position: relative;
 }
 
 #app {

@@ -1,6 +1,11 @@
   <template>
     <button id="deconnect" @click="deconnect" class="hover-2">Deconexion</button>
-    <router-link class="new-graph hover-1" to="/new-graph">Create New Graph</router-link>
+    <LogoTitle class="logo-title" :msg="logoProp"></LogoTitle>
+    <router-link class="new-graph" to="/new-graph">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    </router-link>
     <ul v-if="listData.length > 0">
         <li class="hover-3" v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
             <h2>{{ graph.name }}</h2>
@@ -15,6 +20,7 @@
   
   <script>
   import axios from 'axios';
+  import LogoTitle from '../components/LogoTitleComponent.vue' 
   
   export default {
     name: 'ListPage',
@@ -23,8 +29,13 @@
       return {
         listData: [],
         userId: null,
-        requestStatus: "Loading..."
+        requestStatus: "Loading...",
+        logoProp: "All graphs"
       }
+    },
+
+    components: {
+      LogoTitle
     },
   
     mounted() {
@@ -46,7 +57,6 @@
 
         // Retrieve the JWT token from local storage
         const token = localStorage.getItem('token');
-        //console.log(token);
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
@@ -57,8 +67,6 @@
         .then(response => {
           this.listData = response.data;
           this.requestStatus = "No list has been found for this user..."
-          
-          //console.log(response.data);
         })
         .catch(
           
@@ -78,10 +86,8 @@
       },
 
       getUserId() {
-        //console.log('userId');
         if(localStorage.getItem('token') === null){
           this.$router.push({ path: `/connect/` });
-          //console.log('route');
         }
       }
 
@@ -101,10 +107,40 @@
     .new-graph {
       text-decoration: none;
       color: inherit;
-      border: 1px solid black;
-      border-radius: 2rem;
-      padding: 1rem;
-      position: relative;
+      border-radius: 50%;
+      height: 4rem;
+      width: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0rem;
+      position: fixed;
+      opacity: 1;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 1;
+      box-shadow: 1px 1px 7px;
+      background-color: white;
+      transition: transform 0.4s;
+    }
+
+    .new-graph:hover {
+      transform: scale(1.2);
+    }
+
+
+    .new-graph svg {
+      height: 3rem;
+      color: inherit;
+      transition: transform 0.4s;
+    }
+
+    .new-graph svg:hover {
+      transform: rotate(-0.25turn);
+    }
+
+    .logo-title {
+      position: sticky;
       top: 1rem;
     }
 
@@ -131,10 +167,6 @@
     li h2 {
       font-weight: bold;
       font-size: 1.5rem;
-    }
-
-    li p {
-
     }
 
     #request-status {
