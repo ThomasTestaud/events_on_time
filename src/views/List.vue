@@ -1,6 +1,6 @@
   <template>
     <button id="deconnect" @click="deconnect" class="hover-2">Deconexion</button>
-    <LogoTitle class="logo-title" :msg="logoProp"></LogoTitle>
+    <HeaderComponent class="logo-title"></HeaderComponent>
     <router-link class="new-graph" to="/new-graph">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -20,7 +20,7 @@
   
   <script>
   import axios from 'axios';
-  import LogoTitle from '../components/LogoTitleComponent.vue' 
+  import HeaderComponent from '../components/HeaderComponent.vue' 
   
   export default {
     name: 'ListPage',
@@ -30,12 +30,13 @@
         listData: [],
         userId: null,
         requestStatus: "Loading...",
-        logoProp: "All graphs"
+        logoProp: "All graphs",
+        logoSize: "small"
       }
     },
 
     components: {
-      LogoTitle
+      HeaderComponent
     },
   
     mounted() {
@@ -142,6 +143,7 @@
     .logo-title {
       position: sticky;
       top: 1rem;
+      z-index: 3;
     }
 
     ul {
