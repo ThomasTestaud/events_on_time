@@ -79,7 +79,7 @@
       goToGraph(graphId) {
         this.$router.push({ path: `/graph/${graphId}` });
       },
-
+      
       getUserId() {
         if(localStorage.getItem('token') === null){
           this.$router.push({ path: `/connect/` });
@@ -93,7 +93,6 @@
   </script>
 
   <style scoped>
-    
 
     .new-graph {
       text-decoration: none;

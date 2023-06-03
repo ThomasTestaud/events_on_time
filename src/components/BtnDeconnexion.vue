@@ -8,7 +8,7 @@
     export default {
 
         name: 'BtnDeconnexion',
-
+  
         methods: {
 
             deconnect() {
@@ -21,5 +21,7 @@
 
 
 <style scoped>
-    
+    .btn-deconnexion {
+        z-index: 2;
+    }
 </style>
