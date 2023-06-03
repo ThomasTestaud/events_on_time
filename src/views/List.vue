@@ -1,5 +1,4 @@
   <template>
-    <button id="deconnect" @click="deconnect" class="hover-2">Deconexion</button>
     <HeaderComponent class="logo-title"></HeaderComponent>
     <router-link class="new-graph" to="/new-graph">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -81,11 +80,6 @@
         this.$router.push({ path: `/graph/${graphId}` });
       },
 
-      deconnect() {
-        localStorage.setItem("token", null);
-        this.$router.push({ path: `/connect/` });
-      },
-
       getUserId() {
         if(localStorage.getItem('token') === null){
           this.$router.push({ path: `/connect/` });
@@ -99,11 +93,7 @@
   </script>
 
   <style scoped>
-    #deconnect {
-      position: absolute;
-      left: 1rem;
-      top: 1rem;
-    }
+    
 
     .new-graph {
       text-decoration: none;
@@ -140,11 +130,6 @@
       transform: rotate(-0.25turn);
     }
 
-    .logo-title {
-      position: sticky;
-      top: 1rem;
-      z-index: 3;
-    }
 
     ul {
       list-style: none;
