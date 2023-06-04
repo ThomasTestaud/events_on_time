@@ -1,9 +1,11 @@
 <template>
+  <div class="view">
     <router-link class="nav hover-1" to="/">Back</router-link>
     <h1>New Graph</h1>
     <label for="">Graph Name</label><br>
     <input type="text" v-model="graphName"><br>
     <button class="hover-3" @click="ajaxRequest">Create</button>
+  </div>
 </template>
   
   <script>
@@ -58,6 +60,10 @@
   </script>
 
   <style scoped>
+
+  .view {
+    margin-top: 100px;
+  }
 
   input {
     margin-bottom: 1rem;

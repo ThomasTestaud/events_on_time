@@ -129,7 +129,6 @@
       transform: rotate(-0.25turn);
     }
 
-
     ul {
       list-style: none;
       padding: 0;

@@ -220,6 +220,7 @@ export default {
           if(this.indexLines){
             //DRAW HORIZONTAL LINES
             ctx.strokeStyle = "#cecece";
+            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(graphMargin + 1, y);
             ctx.lineTo(graphMargin + 20 + graphWidth, y);
@@ -239,6 +240,7 @@ export default {
               const prevX = graphMargin + ((this.data[index - 1].x_value - minX) / (maxX - minX)) * graphWidth;
               const prevY = this.canvasHeight - graphMargin - (this.data[index - 1].y_value / maxY) * graphHeight;
               ctx.strokeStyle = "#ff8c8c";
+              ctx.lineWidth = 2;
               ctx.beginPath();
               ctx.moveTo(prevX, prevY);
               ctx.lineTo(x, y);
@@ -264,7 +266,7 @@ export default {
             ctx.fillStyle = "blue";
             ctx.beginPath();
             ctx.beginPath();
-            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.arc(x, y, 4, 0, 2 * Math.PI);
             ctx.fill();
           }
         });
@@ -301,19 +303,21 @@ export default {
     input[type="checkbox" i]{
       width: 2rem;
     }
-
-    .checkboxs label {
-      margin-right: 2rem;
+    .checkboxs {
+      max-width: 800px;
+      margin: auto;
+      display: flex;
+      justify-content: space-around;
+      align-items: center; 
     }
-
     .checkboxs input {
       cursor: pointer;
     }
 
     canvas {
-      background-color: var(--main-background);
+      background-color: rgb(255, 255, 255);
       border-radius: 1rem;
-      border: 1px solid rgba(189, 189, 189, 0.793);
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.473) inset;
     }
   </style>
   

@@ -36,7 +36,7 @@
 
     .btn-deconnexion {
         position: absolute;
-        left: 0.1rem;
-        top: 1.4rem;
+        left: 1rem;
+        top: 1rem;
     }
 </style>

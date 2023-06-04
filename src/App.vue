@@ -23,7 +23,6 @@ html {
 }
 body {
   margin: 0px;
-  margin-top: 80px;
 }
 
 #app {

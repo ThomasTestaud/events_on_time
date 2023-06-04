@@ -1,4 +1,5 @@
   <template>
+    <div class="view"></div>
     <LogoTitle :msg="pageName"></LogoTitle>
     <p>{{ errors }}</p>
     <label for="">Username</label><br>
@@ -75,6 +76,9 @@
   </script>
 
   <style scoped>
+    .view {
+      margin-top: 80px;
+    }
     input {
       margin-bottom: 2rem;
     }

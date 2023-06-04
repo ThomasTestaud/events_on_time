@@ -1,4 +1,5 @@
 <template>
+  <div class="view"></div>
   <router-link class="nav hover-1" to="/">Back</router-link>
   <button class="delete-graph-button hover-2" @click="deleteGraph()">Delete Graph</button>
   <template v-if="Object.keys(graphData).length > 0">
@@ -120,6 +121,9 @@ export default {
 }
 </script>
 <style scoped>
+  .view {
+    margin-top: 80px;
+  }
   .delete-graph-button{
     position: absolute;
     right: 1rem;
