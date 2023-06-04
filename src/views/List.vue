@@ -79,7 +79,7 @@
       goToGraph(graphId) {
         this.$router.push({ path: `/graph/${graphId}` });
       },
-      
+
       getUserId() {
         if(localStorage.getItem('token') === null){
           this.$router.push({ path: `/connect/` });
@@ -135,7 +135,7 @@
       padding: 0;
       margin: 0;
       position: relative;
-      top: 2.5rem;
+      top: 0rem;
       max-width: 1000px;
       margin: auto;
       margin-bottom: 4rem;

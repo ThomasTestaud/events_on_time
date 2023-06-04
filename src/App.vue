@@ -21,6 +21,10 @@ html {
   background-image: url('./assets/endless2.svg');
   position: relative;
 }
+body {
+  margin: 0px;
+  margin-top: 80px;
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -28,8 +32,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--main-color);
-  margin-top: 80px;
-  
+  /*margin-top: 80px;*/
 }
 
 .nav {
