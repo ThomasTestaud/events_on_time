@@ -6,20 +6,21 @@
       </svg>
     </router-link>
     <ul v-if="listData.length > 0">
-        <li class="hover-3" v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
-            <h2>{{ graph.name }}</h2>
-            <p>Total number of events: {{ graph.events }}</p> 
-            <p>From {{ calculateDates(graph.first_event) }} to {{ calculateDates(graph.last_event) }} at {{ calculateTime(graph.last_event) }}</p>
-        </li>
+      <li class="hover-3" v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
+        <h2>{{ graph.name }}</h2>
+        <p>Total number of events: {{ graph.events }}</p> 
+        <p>From {{ calculateDates(graph.first_event) }} to {{ calculateDates(graph.last_event) }} at {{ calculateTime(graph.last_event) }}</p>
+      </li>
     </ul>
     <template v-else>
-      <p id="request-status">{{ requestStatus }}</p>
+      <LoaderComponent></LoaderComponent>
     </template>
   </template>
   
   <script>
   import axios from 'axios';
   import HeaderComponent from '../components/HeaderComponent.vue' 
+  import LoaderComponent from '../components/LoaderComponent.vue' 
   
   export default {
     name: 'ListPage',
@@ -35,7 +36,8 @@
     },
 
     components: {
-      HeaderComponent
+      HeaderComponent,
+      LoaderComponent
     },
   
     mounted() {
