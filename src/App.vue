@@ -22,7 +22,7 @@ html {
   position: relative;
 }
 body {
-  margin: 0px;
+  margin: 0rem;
 }
 
 #app {
