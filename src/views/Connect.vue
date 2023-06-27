@@ -1,16 +1,17 @@
   <template>
-    <div class="view"></div>
-    <LogoTitle :msg="pageName"></LogoTitle>
-    
-    <p>{{ errors }}</p>
-    <label for="username">Username</label><br>
-    <input type="text" name="username" v-model="username"><br>
-    <label for="password">Password</label><br>
-    <input type="password" name="password" v-model="password"><br>
-    <button @click="connect" class="hover-3">Connexion</button><br>
-    <div class="sub-text-1"><p>Or</p></div>
-    <button id="lastbtn" @click="connectAsJohnDoe()" class="hover-3"><div class="sub-text-1">Connect as </div>John Doe</button><br>
-    <router-link to="/create-account">Create a new account</router-link>
+    <div class="view">
+      <LogoTitle :msg="pageName"></LogoTitle>
+      
+      <p>{{ errors }}</p>
+      <label for="username">Username</label><br>
+      <input type="text" name="username" v-model="username"><br>
+      <label for="password">Password</label><br>
+      <input type="password" name="password" v-model="password"><br>
+      <button @click="connect" class="hover-3">Connexion</button><br>
+      <div class="sub-text-1"><p>Or</p></div>
+      <button id="lastbtn" @click="connectAsJohnDoe()" class="hover-3"><div class="sub-text-1">Connect as </div>John Doe</button><br>
+      <router-link to="/create-account">Create a new account</router-link>
+    </div>
   </template>
   
   <script>
@@ -94,7 +95,9 @@
 
   <style scoped>
     .view {
-      margin-top: 80px;
+      padding-top: 80px;
+      background-image: url('../assets/endless2.svg');
+      height: 100%;
     }
     input {
       margin-bottom: 2rem;

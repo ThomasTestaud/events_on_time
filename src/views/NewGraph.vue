@@ -62,7 +62,9 @@
   <style scoped>
 
   .view {
-    margin-top: 100px;
+    padding-top: 100px;
+    background-image: url('../assets/endless2.svg');
+    height: 100%;
   }
 
   input {

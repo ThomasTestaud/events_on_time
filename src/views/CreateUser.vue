@@ -1,15 +1,16 @@
   <template>
-    <div class="view"></div>
-    <LogoTitle :msg="pageName"></LogoTitle>
-    <p>{{ errors }}</p>
-    <label for="">Username</label><br>
-    <input type="text" v-model="username"><br>
-    <label for="">Password</label><br>
-    <input type="password" v-model="password"><br>
-    <label for="">Confirm Password</label><br>
-    <input type="password" v-model="confirmPassword"><br>
-    <button  class="hover-3" @click="verifyPassword">Create account</button><br>
-    <router-link to="/connect">I have an account</router-link>
+    <div class="view">
+      <LogoTitle :msg="pageName"></LogoTitle>
+      <p>{{ errors }}</p>
+      <label for="">Username</label><br>
+      <input type="text" v-model="username"><br>
+      <label for="">Password</label><br>
+      <input type="password" v-model="password"><br>
+      <label for="">Confirm Password</label><br>
+      <input type="password" v-model="confirmPassword"><br>
+      <button  class="hover-3" @click="verifyPassword">Create account</button><br>
+      <router-link to="/connect">I have an account</router-link>
+    </div>
   </template>
   
   <script>
@@ -77,7 +78,9 @@
 
   <style scoped>
     .view {
-      margin-top: 80px;
+      padding-top: 80px;
+      background-image: url('../assets/endless2.svg');
+      height: 100%;
     }
     input {
       margin-bottom: 2rem;

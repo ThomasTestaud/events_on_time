@@ -18,11 +18,12 @@
 }
 
 html {
-  background-image: url('./assets/endless2.svg');
-  position: relative;
+  /*background-image: url('./assets/endless2.svg');*/
+  height: 100%;
 }
 body {
   margin: 0rem;
+  height: 100%;
 }
 
 #app {
@@ -31,7 +32,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--main-color);
-  /*margin-top: 80px;*/
+  height: 100%;
 }
 
 .nav {

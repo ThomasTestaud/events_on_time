@@ -1,7 +1,6 @@
 <template>
   <div class="view"></div>
   <router-link class="nav hover-1" to="/">Back</router-link>
-  <button class="delete-graph-button hover-2" @click="deleteGraph()">Delete Graph</button>
   <template v-if="Object.keys(graphData).length > 0">
     <h2>{{ graphTitle }}</h2>
       <GraphComponent :graphData="graphData" :key="componentKey"/>
@@ -94,27 +93,6 @@ export default {
         console.log(error);
       });
     },
-
-    deleteGraph() {
-      const token = localStorage.getItem('token');
-      const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-      const graphId = this.$route.params.id; // Get the graph ID from the route
-      //axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`, config) // DEV
-      axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
-        .then(response => {
-          // Redirect to '/list' route upon successful deletion
-          console.log(response.data);
-          this.$router.push('/');
-        })
-        .catch(error => {
-          // Handle error if the deletion request fails
-          console.error(error);
-        });
-    }
     
   }
 
@@ -122,12 +100,7 @@ export default {
 </script>
 <style scoped>
   .view {
-    margin-top: 80px;
-  }
-  .delete-graph-button{
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
+    padding-top: 80px;
   }
 
   #add-event {

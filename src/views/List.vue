@@ -1,20 +1,22 @@
   <template>
-    <HeaderComponent class="logo-title"></HeaderComponent>
-    <router-link class="new-graph" to="/new-graph">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
-    </router-link>
-    <ul v-if="listData.length > 0">
-      <li class="hover-3" v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
-        <h2>{{ graph.name }}</h2>
-        <p>Total number of events: {{ graph.events }}</p> 
-        <p>From {{ calculateDates(graph.first_event) }} to {{ calculateDates(graph.last_event) }} at {{ calculateTime(graph.last_event) }}</p>
-      </li>
-    </ul>
-    <template v-else>
-      <LoaderComponent></LoaderComponent>
-    </template>
+    <div class="view">
+      <HeaderComponent class="logo-title"></HeaderComponent>
+      <router-link class="new-graph" to="/new-graph">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </router-link>
+      <ul v-if="listData.length > 0">
+        <li class="hover-3" v-for="graph in listData" :key="graph.id"  @click="goToGraph(graph.id)">
+          <h2>{{ graph.name }}</h2>
+          <p>Total number of events: {{ graph.events }}</p> 
+          <p>From {{ calculateDates(graph.first_event) }} to {{ calculateDates(graph.last_event) }} at {{ calculateTime(graph.last_event) }}</p>
+        </li>
+      </ul>
+      <template v-else>
+        <LoaderComponent></LoaderComponent>
+      </template>
+    </div>
   </template>
   
   <script>
@@ -95,6 +97,10 @@
   </script>
 
   <style scoped>
+    .view {
+      background-image: url('../assets/endless2.svg');
+      height: 100%;
+    }
 
     .new-graph {
       text-decoration: none;

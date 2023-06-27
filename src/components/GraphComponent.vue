@@ -1,28 +1,33 @@
 <template>
-  <div>
+  <div class="graph-container">
     <canvas ref="graphCanvas" :width="canvasWidth" :height="canvasHeight"></canvas><br/>
     <template v-if="configPannel">
       <div id="close-config">
         <svg @click="closeConfig" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
       </div>
-      <div class="checkboxs">
-        <span>
+      <div class="config-pannel">
+        <div>
           <input @change="toggleValue('dots')" type="checkbox" id="dots" :checked="dots">
           <label for="dots">Blue dots</label>
-        </span>
-        <span>
+        </div>
+        <div>
           <input @change="toggleValue('lines')" type="checkbox" id="lines" :checked="lines">
           <label for="lines">Red lines</label>
-        </span>
-        <span>
+        </div>
+        <div>
           <input @change="toggleValue('indexLines')" type="checkbox" id="index-lines" :checked="indexLines">
           <label for="index-lines">Index lines</label>
-        </span>
+        </div>
+        <div>
+          <p>Group by 
+            <input name="stepTime" type="number" v-model="stepTime" @change="updateStepTime()"> seconds.
+          </p>
+        </div>
+        <div class="delete-graph-button">
+          <button class=" hover-2" @click="deleteGraph()">Delete Graph</button>
+        </div>
+        
       </div>
-      <p>Group by 
-      <input name="stepTime" type="number" v-model="stepTime" @change="updateStepTime()"> seconds.
-      </p>
-
     </template>
     <template v-else>
       <div id="open-config" >
@@ -33,6 +38,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'GraphComponent',
   props: {
@@ -270,10 +277,29 @@ export default {
             ctx.fill();
           }
         });
-
-
-        
       },
+
+      deleteGraph() {
+      const token = localStorage.getItem('token');
+      const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+
+      const graphId = this.$route.params.id; // Get the graph ID from the route
+      //axios.delete(`http://localhost:3000/MVC_PHP/API_Event_On_Time/index.php?route=graph&graphId=${graphId}`, config) // DEV
+      axios.delete(`https://api-events-on-time.thomastestaud.com/index.php?route=graph&graphId=${graphId}`, config) // PROD
+        .then(response => {
+          // Redirect to '/list' route upon successful deletion
+          console.log(response.data);
+          this.$router.push('/');
+        })
+        .catch(error => {
+          // Handle error if the deletion request fails
+          console.error(error);
+        });
+    }
 
     },
   };
@@ -282,7 +308,7 @@ export default {
   <style scoped>
 
     input {
-      margin-bottom: 2rem;
+      /*margin-bottom: 2rem;*/
       width: 5rem;
     }
     p {
@@ -295,29 +321,76 @@ export default {
 
     #open-config,
     #close-config {
-      text-align: right;
+      /*text-align: right;
       max-width: 1000px;
-      margin: auto;
+      margin: auto;*/
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 2;
     }
 
     input[type="checkbox" i]{
       width: 2rem;
     }
-    .checkboxs {
-      max-width: 800px;
-      margin: auto;
-      display: flex;
-      justify-content: space-around;
-      align-items: center; 
+    .config-pannel {
+      flex-direction: column;
+      position: fixed;
+      top: 0px;
+      height: 100%;
+      width: 100%;
+      background-color: white;
+      z-index: 1;
+    }
+    .config-pannel div + div {
+      border-top: 1px solid grey;
+    }
+    .config-pannel div {
+      padding: 1rem;
     }
     .checkboxs input {
       cursor: pointer;
     }
 
     canvas {
-      background-color: rgb(255, 255, 255);
+      /*background-color: rgb(255, 255, 255);
       border-radius: 1rem;
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.473) inset;
+      box-shadow: 0px 0px 5px rgb
+      a(0, 0, 0, 0.473) inset;*/
+    }
+
+    @media screen and (min-width: 1000px) {
+      #open-config,
+      #close-config {
+        text-align: right;
+        max-width: 1000px;
+        margin: auto;
+        position: relative;
+        top: 0rem;
+        right: 0rem;
+      }
+      .config-pannel {
+        display: flex;
+        max-width: 1000px;
+        margin: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        position: relative;
+        top: 0px;
+        height: auto;
+        width: auto;
+        margin-bottom: 1rem;
+      }
+
+      .config-pannel div + div {
+        border-top: 0px solid grey;
+      }
+
+      .delete-graph-button {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+      }
     }
   </style>
   
