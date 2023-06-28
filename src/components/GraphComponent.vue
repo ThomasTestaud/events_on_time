@@ -6,6 +6,9 @@
         <svg @click="closeConfig" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
       </div>
       <div class="config-pannel">
+        <div class="not-desktop">
+          <h3>Draw elements</h3>
+        </div>
         <div>
           <input @change="toggleValue('dots')" type="checkbox" id="dots" :checked="dots">
           <label for="dots">Blue dots</label>
@@ -18,10 +21,16 @@
           <input @change="toggleValue('indexLines')" type="checkbox" id="index-lines" :checked="indexLines">
           <label for="index-lines">Index lines</label>
         </div>
+        <div class="not-desktop">
+          <h3>Group events by</h3>
+        </div>
         <div>
           <p>Group by 
             <input name="stepTime" type="number" v-model="stepTime" @change="updateStepTime()"> seconds.
           </p>
+        </div>
+        <div>
+          <h3 class="not-desktop">Other</h3>
         </div>
         <div class="delete-graph-button">
           <button class=" hover-2" @click="deleteGraph()">Delete Graph</button>
@@ -164,11 +173,11 @@ export default {
         const ctx = canvas.getContext("2d");
 
         //////////////////////CALCULATE STUFF//////////////////////
-        const graphMargin = 40;
+        const graphMargin = 25;
         const firstPointDate = new Date(Math.min(...this.data.map((d) => d.x_value)) * 1000).toLocaleDateString('en-GB');
         const lastPointDate = new Date(Math.max(...this.data.map((d) => d.x_value)) * 1000).toLocaleDateString('en-GB');        // Calculate the dimensions of the graph area
         
-        const graphWidth = this.canvasWidth - 80;
+        const graphWidth = this.canvasWidth - graphMargin*2;
         const graphHeight = this.canvasHeight - 90;
         
         // Find the maximum values of time and event in the data array
@@ -215,9 +224,8 @@ export default {
         // Draw dates
         ctx.font = '12px Arial';
         ctx.fillStyle = 'black';
-        ctx.fillText(firstPointDate, 40, this.canvasHeight - 20);
-        ctx.fillText(lastPointDate, graphWidth, this.canvasHeight - 20);
-
+        ctx.fillText(firstPointDate, graphMargin, this.canvasHeight - 7);
+        ctx.fillText(lastPointDate, graphWidth - graphMargin, this.canvasHeight - 7);
 
         // Iterate over the array of data
         this.data.forEach((d) => {
@@ -238,14 +246,15 @@ export default {
 
         // Iterate over the array of data
         this.data.forEach((d, index) => {
-          const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
+          let x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
 
           if(this.lines){
             //DRAW RED LINES
             if (index > 0) {
-              const prevX = graphMargin + ((this.data[index - 1].x_value - minX) / (maxX - minX)) * graphWidth;
+              let prevX = graphMargin + ((this.data[index - 1].x_value - minX) / (maxX - minX)) * graphWidth;
               const prevY = this.canvasHeight - graphMargin - (this.data[index - 1].y_value / maxY) * graphHeight;
+              
               ctx.strokeStyle = "#ff8c8c";
               ctx.lineWidth = 2;
               ctx.beginPath();
@@ -253,20 +262,38 @@ export default {
               ctx.lineTo(x, y);
               ctx.stroke();
             }
+
+            // If there is only one data in the array
+            if(this.data.length === 1) {
+              let prevX = graphMargin;
+              let prevY = y;
+              x = graphWidth + graphMargin;
+              ctx.strokeStyle = "#ff8c8c";
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(prevX, prevY);
+              ctx.lineTo(x, y);
+              ctx.stroke();
+            }
+
           }
         });
 
         // Iterate over the array of data a second time to avoid overlapping of lines
         this.data.forEach((d) => {
           // Calculate the x and y coordinates for the data point
-          const x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
+          let x = graphMargin + ((d.x_value - minX) / (maxX - minX)) * graphWidth; // Scale the x-coordinate based on the maximum time value
           const y = this.canvasHeight - graphMargin - (d.y_value / maxY) * graphHeight; // Scale the y-coordinate based on the maximum event value
           
           //DRAW TEXT NUMBER Y VALUES
           ctx.font = '12px Arial';
           ctx.fillStyle = 'black';
           const textWidth = ctx.measureText(d.y_value).width;
-          ctx.fillText(d.y_value, 30-textWidth, y - 0);
+          ctx.fillText(d.y_value, graphMargin-5-textWidth, y + 4);
+
+          if(this.data.length === 1) { // If there is only one data in the array
+              x = graphWidth / 2 + graphMargin;
+          }
 
           if(this.dots){
             //DRAW DOTS
@@ -307,8 +334,11 @@ export default {
 
   <style scoped>
 
+    canvas {
+      margin: 0px;
+    }
+
     input {
-      /*margin-bottom: 2rem;*/
       width: 5rem;
     }
     p {
@@ -321,9 +351,6 @@ export default {
 
     #open-config,
     #close-config {
-      /*text-align: right;
-      max-width: 1000px;
-      margin: auto;*/
       position: absolute;
       top: 1rem;
       right: 1rem;
@@ -341,6 +368,7 @@ export default {
       width: 100%;
       background-color: white;
       z-index: 1;
+      padding-top: 0rem;
     }
     .config-pannel div + div {
       border-top: 1px solid grey;
@@ -352,11 +380,8 @@ export default {
       cursor: pointer;
     }
 
-    canvas {
-      /*background-color: rgb(255, 255, 255);
-      border-radius: 1rem;
-      box-shadow: 0px 0px 5px rgb
-      a(0, 0, 0, 0.473) inset;*/
+    .delete-graph-button{
+      margin-top: 0rem;
     }
 
     @media screen and (min-width: 1000px) {
@@ -380,9 +405,10 @@ export default {
         height: auto;
         width: auto;
         margin-bottom: 1rem;
+        padding-top: 0rem;
       }
 
-      .config-pannel div + div {
+      .config-pannel div+div {
         border-top: 0px solid grey;
       }
 
@@ -390,6 +416,11 @@ export default {
         position: fixed;
         top: 1rem;
         right: 1rem;
+        margin-top: 0rem;
+      }
+
+      .not-desktop {
+        display: none;
       }
     }
   </style>

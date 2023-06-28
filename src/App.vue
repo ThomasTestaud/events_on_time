@@ -46,6 +46,11 @@ body {
   border-radius: 2rem;
 }
 
+.view {
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .hover-1,
 .hover-2,
 .hover-3 {

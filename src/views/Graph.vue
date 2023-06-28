@@ -1,14 +1,15 @@
 <template>
-  <div class="view"></div>
-  <router-link class="nav hover-1" to="/">Back</router-link>
-  <template v-if="Object.keys(graphData).length > 0">
-    <h2>{{ graphTitle }}</h2>
-      <GraphComponent :graphData="graphData" :key="componentKey"/>
-    </template>
-    <template v-else>
-      <p>This graph has no data...</p>
-    </template>
-    <button id="add-event" class="hover-3" @click="addPoint()">Add event</button>
+  <div class="view">
+    <router-link class="nav hover-1" to="/">Back</router-link>
+    <template v-if="Object.keys(graphData).length > 0">
+      <h2>{{ graphTitle }}</h2>
+        <GraphComponent :graphData="graphData" :key="componentKey"/>
+      </template>
+      <template v-else>
+        <p>This graph has no data...</p>
+      </template>
+      <button id="add-event" class="hover-3" @click="addPoint()">Add event</button>
+  </div>
 </template>
 
 <script>
@@ -101,6 +102,9 @@ export default {
 <style scoped>
   .view {
     padding-top: 80px;
+    background-color: white;
+    /*height: 100%;*/
+    /*box-sizing: border-box;*/
   }
 
   #add-event {

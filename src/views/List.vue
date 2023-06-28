@@ -99,7 +99,8 @@
   <style scoped>
     .view {
       background-image: url('../assets/endless2.svg');
-      height: 100%;
+      /*height: 100%;*/
+      overflow: auto;
     }
 
     .new-graph {

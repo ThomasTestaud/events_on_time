@@ -64,7 +64,8 @@
   .view {
     padding-top: 100px;
     background-image: url('../assets/endless2.svg');
-    height: 100%;
+    /*height: 100%;*/
+
   }
 
   input {
