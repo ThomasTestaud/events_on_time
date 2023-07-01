@@ -34,7 +34,7 @@
     button {
         border: 0px solid red;
         padding: 0rem;
-        margin: 0rem;
+        margin: 0rem 0rem;
     }
     
 </style>
